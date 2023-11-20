@@ -76,5 +76,7 @@
     </c:forEach>
 </table>
 <br/><a href="addpostform.jsp">Add New Post</a>
+<br/><a href="view.jsp">Go to View All Data</a>
+
 </body>
 </html>
