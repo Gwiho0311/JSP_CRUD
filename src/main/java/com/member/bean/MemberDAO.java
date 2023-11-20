@@ -13,8 +13,9 @@ public class MemberDAO {
     private PreparedStatement stmt = null;
     private ResultSet rs = null;
 
-    private final String M_INSERT = "insert into member(username, userid, password, email, phonenumber, blogurl, photo, detail, regdate) + values (?, ? ,sha1(?), ?, ?, ?, ?, ?, ?)";
-    private final String M_UPDATE = "update member set username=?, userid=?, password=?, email=?, phonenumber=?, blogurl=?, photo=?, detail=?, regdate=?" + "where sid = ?";
+    private final String M_INSERT = "insert into member(username, userid, password, email, phonenumber, blogurl, photo, detail, regdate) values (?, ?, sha1(?), ?, ?, ?, ?, ?, NOW())";
+    private final String M_UPDATE = "update member set username=?, userid=?, password=sha1(?), email=?, phonenumber=?, blogurl=?, photo=?, detail=?, regdate=NOW() where sid = ?";
+
     private final String M_DELETE = "delete from member where sid = ?";
     private final String M_SELECT = "select * from member where sid = ?";
     private final String M_LIST = "select * from member order by regdate desc";
@@ -95,17 +96,20 @@ public class MemberDAO {
             stmt.setString(6, vo.getBlogurl());
             stmt.setString(7, vo.getPhoto());
             stmt.setString(8, vo.getDetail());
+            stmt.setInt(9, vo.getSid()); // 추가된 부분
 
-
-            System.out.println(vo.getUsername() + "-" + vo.getUserid() + "-" + vo.getPassword() + "-" + vo.getEmail() + vo.getPhonenumber() + "-" + vo.getBlogurl() + "-" + vo.getPhoto() + "-" + vo.getDetail());
-            stmt.executeUpdate();
-            return 1;
+            System.out.println(vo.getUsername() + "-" + vo.getUserid() + "-" + vo.getPassword() + "-" + vo.getEmail() + vo.getPhonenumber() + "-" + vo.getBlogurl() + "-" + vo.getPhoto() + "-" + vo.getDetail() + "-" + vo.getSid());
+            int result = stmt.executeUpdate();
+            return result > 0 ? 1 : 0;
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            // 여기서 리소스 해제 (stmt, conn, rs 등)
         }
         return 0;
     }
+
 
     public List<MemberVO> getMemberList(){
         List<MemberVO> list = new ArrayList<MemberVO>();

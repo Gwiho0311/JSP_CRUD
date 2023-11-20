@@ -1,6 +1,7 @@
 package com.member.bean;
 import java.util.Date;
 
+
 public class MemberVO {
     private int sid;
     private String username;
