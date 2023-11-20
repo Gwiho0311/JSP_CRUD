@@ -36,7 +36,7 @@
     </script>
 </head>
 <body>
-<h1>자유게시판</h1>
+<h1>회원관리</h1>
 <%
     MemberDAO memberDAO = new MemberDAO();
     List<MemberVO> list = memberDAO.getMemberList();
